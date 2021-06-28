@@ -15,4 +15,10 @@
 
 Разработчики нового микросервиса, сервиса расчёта поездок и мобильные разработчики могут выполнять свои задачи параллельно. Опираясь на ручки нового сервиса описанные в [здесь](https://github.com/YaBackSchool2021/homework1/blob/filipp/bashir-filipp/openapi.yaml) 
 
+### Архитектура:
 
+Для данной фичи реализуем возможность пользователям выбирать и смотреть свой любимый маршрут.
+![ScreenShot](https://github.com/YaBackSchool2021/homework1/blob/filipp/bashir-filipp/screenshots/add_favoriteway.png)
+
+И возможность сервису расчёта стоимости узнать входит ли выбранный маршрут в любимый у пользователя.
+![ScreenShot](https://github.com/YaBackSchool2021/homework1/blob/filipp/bashir-filipp/screenshots/check_favoriteway.png)
