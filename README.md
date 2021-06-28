@@ -18,7 +18,7 @@
 ### Архитектура:
 
 Для данной фичи реализуем возможность пользователям выбирать и смотреть свой любимый маршрут.
-![ScreenShot](https://github.com/YaBackSchool2021/homework1/blob/filipp/bashir-filipp/screenshots/add_favoriteway.png)
+![ScreenShot](https://github.com/filipp218/favorite_way/blob/main/screenshots/add_way.png)
 
 И возможность сервису расчёта стоимости узнать входит ли выбранный маршрут в любимый у пользователя.
-![ScreenShot](https://github.com/YaBackSchool2021/homework1/blob/filipp/bashir-filipp/screenshots/check_favoriteway.png)
+![ScreenShot](https://github.com/filipp218/favorite_way/blob/main/screenshots/check.jpg)
