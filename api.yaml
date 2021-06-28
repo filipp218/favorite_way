@@ -1,0 +1,218 @@
+openapi: 3.0.1
+info:
+  title: 'Yandex Go'
+  version: '1.0'
+
+paths:
+  /v1/favoriteway/{userId}:
+    parameters:
+    - in: path
+      name: userId
+      required: true
+      schema:
+          type: integer
+
+    get:
+      description: 'Маршрут без повышенного коэффициента'
+      responses:
+        '200':
+          description: 'Любимый маршрут пользователя'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FavoriteWayGet'
+
+        '400':
+          description: 'Bad request'
+          content:
+              application/json:
+                  schema:
+                      type: object
+                      additionalProperties: true
+                      properties:
+                          validation_error:
+                            $ref: '#/components/schemas/FavoriteWayGet400'
+                      required:
+                        - validation_error
+    post:
+      description: 'Пользователь выбрал любимый маршрут'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FavoriteWayPost'
+
+
+      responses:
+        '201':
+          description: 'Created'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FavoriteWayPost201'
+
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                properties:
+                  validation_error:
+                    type: object
+                    properties:
+                      user_id:
+                        type: integer
+                required:
+                  - validation_error
+
+
+  /v1/check:
+    post:
+      description: 'Является ли данный маршрут любимым у пользователя'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckFavoriteWay'
+
+
+      responses:
+        '200':
+          description: 'Да или нет'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckFavoriteWay200'
+
+components:
+  schemas:
+    FavoriteWayGet:
+      type: object
+      additionalProperties: false
+      properties:
+        user_id:
+          type: integer
+        location1:
+          type: object
+          properties:
+            lat:
+              type: number
+            long:
+              type: number
+        location2:
+          type: object
+          properties:
+            lat:
+              type: number
+            long:
+              type: number
+        install_date:
+          type: string
+          example: '2021-06-29 12:42:10.940759'
+      required:
+        - location1
+        - location2
+        - install_date
+
+    FavoriteWayGet400:
+      type: object
+      properties:
+        user_id:
+          type: integer
+        favorite_way:
+          type: boolean
+      required:
+        - user_id
+        - favorite_way
+
+    FavoriteWayPost:
+      type: object
+      additionalProperties: false
+      properties:
+        location1:
+          type: object
+          properties:
+            lat:
+              type: number
+            long:
+              type: number
+        location2:
+          type: object
+          properties:
+            lat:
+              type: number
+            long:
+              type: number
+        install_date:
+          type: string
+          example: '2021-06-29 12:42:10.940759'
+      required:
+        - location1
+        - location2
+        - install_date
+
+    FavoriteWayPost201:
+      type: object
+      additionalProperties: false
+      properties:
+        user_id:
+          type: integer
+
+
+    CheckFavoriteWay:
+      type: object
+      additionalProperties: false
+      properties:
+        user_id:
+          type: integer
+        location1:
+          type: object
+          properties:
+            lat:
+              type: number
+            long:
+              type: number
+        location2:
+          type: object
+          properties:
+            lat:
+              type: number
+            long:
+              type: number
+      required:
+        - user_id
+        - location1
+        - location2
+
+    CheckFavoriteWay200:
+      type: object
+      additionalProperties: false
+      properties:
+        user_id:
+          type: integer
+        location1:
+          type: object
+          properties:
+            lat:
+              type: number
+            long:
+              type: number
+        location2:
+          type: object
+          properties:
+            lat:
+              type: number
+            long:
+              type: number
+        favorite_way:
+          type: boolean
+      required:
+        - user_id
+        - location1
+        - location2
+        - favorite_way
+
+
+
