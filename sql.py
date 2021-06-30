@@ -29,7 +29,7 @@ async def conn_to_db():
     return conn
 
 
-async def add_to_db(conn, body, user_id):
+async def add_to_db(conn, body: dict, user_id: int) -> tuple:
     """
     Добавляем любимый маршрут пользователя в БД, если прошло больше 7 дней с предыдущей
     записи, деактивируем старую запись.
@@ -81,7 +81,7 @@ async def add_to_db(conn, body, user_id):
     return {'user_id': user_id[0]}, status
 
 
-async def check(conn, body):
+async def check(conn, body: dict) -> dict:
     """
     Проверяем является ли выбранный маршрут пользователем его любимым.
     В переменной over_range хранится максимальное расстояние, на котором пользователь
@@ -119,7 +119,7 @@ async def check(conn, body):
     return res
 
 
-async def get_from_db(conn, user_id):
+async def get_from_db(conn, user_id: int) -> tuple:
     """
     Получаем из БД любимый маршрут пользователя
     """

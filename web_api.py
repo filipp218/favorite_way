@@ -16,18 +16,18 @@ async def add_favoriteway(request):
         validate(instance=body, schema=favorite_way_post)
     except exceptions.ValidationError:
         data = {'validation_error': {'user_id': user_id}}
-        return web.Response(body=f'{data}', status=400)
+        return web.json_response(data=data, status=400)
 
     user_id, status = await add_to_db(conn, body, user_id)
-    return web.Response(body=f'{user_id}', status=status)
+    return web.json_response(data=user_id, status=status)
 
 
 @routes.get('/favoriteway/{id}')
-async def add_favoriteway(request):
+async def get_favoriteway(request):
     user_id = request.match_info['id']
     conn = await conn_to_db()
     data, status = await get_from_db(conn, user_id)
-    return web.Response(body=f'{data}', status=status)
+    return web.json_response(data=data, status=status)
 
 
 @routes.post('/check')
@@ -38,11 +38,25 @@ async def check_favoriteway(request):
         validate(instance=body, schema=check_favorite_way)
     except exceptions.ValidationError:
         data = {'validation_error': 'Не валидные данные'}
-        return web.Response(body=f'{data}', status=400)
+        return web.json_response(data=data, status=400)
 
-    res = await check(conn, body)
-    return web.Response(body=f'{res}', status=200)
+    data = await check(conn, body)
+    return web.json_response(data=data, status=200)
 
-app = web.Application()
-app.add_routes(routes)
-web.run_app(app)
+
+def make_app(loop=None):
+    app = web.Application(loop=loop)
+    app.add_routes(routes)
+    return app
+
+
+def main():
+    web.run_app(make_app())
+
+
+if __name__ == "__main__":
+    main()
+
+
+def main():
+    web.run_app(make_app())
