@@ -33,14 +33,14 @@ favorite_way_get = yaml.safe_load(
 favorite_way_get400 = yaml.safe_load(
     """
       type: object
+      additionalProperties: true
       properties:
         user_id:
           type: integer
         favorite_way:
           type: boolean
       required:
-        - user_id
-        - favorite_way
+        - validation_error
         """)
 
 favorite_way_post = yaml.safe_load(
@@ -87,6 +87,17 @@ favorite_way_post201 = yaml.safe_load(
           type: integer
     """)
 
+favorite_way_post400 = yaml.safe_load(
+    """
+      type: object
+      additionalProperties: true
+      properties:
+        user_id:
+          type: integer
+      required:
+        - validation_error
+    """)
+
 check_favorite_way = yaml.safe_load(
     """
       type: object
@@ -101,6 +112,9 @@ check_favorite_way = yaml.safe_load(
               type: number
             long:
               type: number
+          required:
+            - lat
+            - long
         location2:
           type: object
           properties:
@@ -108,6 +122,9 @@ check_favorite_way = yaml.safe_load(
               type: number
             long:
               type: number
+          required:
+            - lat
+            - long
       required:
         - user_id
         - location1
@@ -128,6 +145,9 @@ check_favorite_way200 = yaml.safe_load(
               type: number
             long:
               type: number
+          required:
+            - lat
+            - long
         location2:
           type: object
           properties:
@@ -135,6 +155,9 @@ check_favorite_way200 = yaml.safe_load(
               type: number
             long:
               type: number
+          required:
+            - lat
+            - long
         favorite_way:
           type: boolean
       required:
