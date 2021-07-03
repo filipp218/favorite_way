@@ -22,3 +22,24 @@
 
 И возможность сервису расчёта стоимости узнать входит ли выбранный маршрут в любимый у пользователя.
 ![ScreenShot](https://github.com/filipp218/favorite_way/blob/main/screenshots/check.jpg)
+
+ВАЖНО, используйте расширение Postgis для Postgresql если поднимаете БД не в контейнере postgis. 
+```
+CREATE EXTENSION postgis;
+```
+### Тестирование:
+Приложение сильно зависит от БД, 
+поэтому я использовал функциональные тесты для проверки сценариев взаимодействия API.
+Для того чтобы протестировать приложение нужно:
+1. запустить докер контейнер с постгресом
+```
+docker run --name postgres --rm -p 5432:5432 -e POSTGRES_PASSWORD=postgres -v $PWD/init.sql:/docker-entrypoint-initdb.d/init.sql -d postgis/postgis
+```
+2. запустите тесты 
+```
+POSTGRES_DSN=postgresql://postgres:postgres@127.0.0.1:5432/postgres python3 -m pytest test_api.py
+```
+Также с помощью моков сделал тест одной функции для БД, но мне показалось, что пользы от такого тестирования мало, а танцев с моками много). Можно запустить с помощью этой команды.
+```
+python3 -m pytest test_db.py
+```

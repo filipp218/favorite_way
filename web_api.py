@@ -20,15 +20,16 @@ async def add_favoriteway(request):
     except JSONDecodeError:
         data = {'validation_error': {'user_id': user_id}}
         return web.json_response(data=data, status=400)
-
     conn = await conn_to_db()
+
     try:
         validate(instance=body, schema=favorite_way_post)
     except exceptions.ValidationError:
         data = {'validation_error': {'user_id': user_id}}
         return web.json_response(data=data, status=400)
 
-    user_id, status = await add_to_db(conn, body, user_id)
+    install_date = body["install_date"]
+    user_id, status = await add_to_db(conn, install_date, body, user_id)
     return web.json_response(data=user_id, status=status)
 
 

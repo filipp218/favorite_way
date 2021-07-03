@@ -1,5 +1,3 @@
-CREATE EXTENSION postgis;
-
 CREATE TABLE Favorite_way(
     id serial PRIMARY KEY,
     user_id int,

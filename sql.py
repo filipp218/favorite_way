@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 
 import asyncpg
@@ -11,7 +12,8 @@ async def conn_to_db():
     Открываем соединение с БД и добавляем расширение для
     работы с типом geometry
     """
-    conn = await asyncpg.connect("postgresql://127.0.0.1:5432/postgres")
+    dsn = os.getenv('POSTGRES_DSN', 'postgresql://127.0.0.1:5432/postgres')
+    conn = await asyncpg.connect(dsn)
 
     def encode_geometry(geometry):
         if not hasattr(geometry, "__geo_interface__"):
@@ -34,13 +36,12 @@ async def conn_to_db():
     return conn
 
 
-async def add_to_db(conn, body: dict, user_id: int) -> tuple:
+async def add_to_db(conn, install_date, body: dict, user_id: int) -> tuple:
     """
     Добавляем любимый маршрут пользователя в БД,
     если прошло больше 7 дней с предыдущей
     записи, деактивируем старую запись.
     """
-    install_date = body["install_date"]
     install_date = datetime.strptime(install_date, "%Y-%m-%d %H:%M:%S.%f")
     query = """
         SELECT $1::timestamp - install_date
@@ -51,9 +52,9 @@ async def add_to_db(conn, body: dict, user_id: int) -> tuple:
     diff_date = await conn.fetchrow(
         query, install_date, user_id
     )  # узнаем, сколько дней прошло с прошлой записи
-
+    print(diff_date)
     if diff_date is not None:  # значит пользователь первый раз добавляет любимый маршрут
-        if not diff_date[0].days >= 7:  # Можно обновлять любимую поездку только раз в 7 дней
+        if diff_date[0].days < 7:  # Можно обновлять любимую поездку только раз в 7 дней
             data = {
                 "validation_error": {"user_id": user_id},
                 "error": "Ещё не прошло 7 дней",
