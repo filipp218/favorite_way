@@ -1,0 +1,12 @@
+aiocontextvars==0.2.2
+aiohttp==3.7.4.post0
+aiopg==1.2.1
+appdirs==1.4.4
+async-timeout==3.0.1
+asyncmock==0.4.2
+asyncpg==0.23.0
+contextlib2==21.6.0
+jsonschema==3.2.0
+Shapely==1.7.1
+aiohttp-prometheus-exporter==0.2.4
+PyYAML==5.4.1

@@ -1,0 +1,28 @@
+services:
+  app:
+    container_name: app
+    build: .
+    stop_signal: SIGINT
+    ports:
+      - "8080:8080"
+  postgres:
+    image: postgis/postgis
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - POSTGRES_PASSWORD=postgres
+  prometheus-server:
+    container_name: prometheus-server
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+  grafana:
+    container_name: grafana
+#    image: grafana/grafana:8.0.4
+    image: uranix/grafana-with-dashboards
+    ports:
+      - "3000:3000"

@@ -8,6 +8,9 @@ from shema import check_favorite_way, favorite_way_post
 
 from sql import add_to_db, check, conn_to_db, get_from_db
 
+from aiohttp_prometheus_exporter.handler import metrics
+from aiohttp_prometheus_exporter.middleware import prometheus_middleware_factory
+
 
 routes = web.RouteTableDef()
 
@@ -40,6 +43,9 @@ async def get_favoriteway(request):
     data, status = await get_from_db(conn, user_id)
     return web.json_response(data=data, status=status)
 
+@routes.post('/hello')
+async def hello(request):
+    return web.json_response(data={'hello':15}, status=200)
 
 @routes.post('/check')
 async def check_favoriteway(request):
@@ -62,6 +68,8 @@ async def check_favoriteway(request):
 def make_app(loop=None):
     app = web.Application(loop=loop)
     app.add_routes(routes)
+    app.middlewares.append(prometheus_middleware_factory())
+    app.router.add_get("/metrics", metrics())
     return app
 
 

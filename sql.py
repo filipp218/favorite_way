@@ -52,7 +52,6 @@ async def add_to_db(conn, install_date, body: dict, user_id: int) -> tuple:
     diff_date = await conn.fetchrow(
         query, install_date, user_id
     )  # узнаем, сколько дней прошло с прошлой записи
-    print(diff_date)
     if diff_date is not None:  # значит пользователь первый раз добавляет любимый маршрут
         if diff_date[0].days < 7:  # Можно обновлять любимую поездку только раз в 7 дней
             data = {
